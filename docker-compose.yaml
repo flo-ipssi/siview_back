@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  back:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: back
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./back:/var/www/html
+    environment:
+      - APP_ENV=local
+      - DB_CONNECTION=mysql
+      - DB_HOST=siview_db
+      - DB_PORT=3306
+      - DB_DATABASE=siview
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    depends_on:
+      - siview_db
+    networks:
+      - siview_net
+
+  siview_db:
+    image: mysql:8.0
+    container_name: siview_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: siview
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - siview_net
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: siview_db
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - siview_db
+    networks:
+      - siview_net
+
+volumes:
+  db_data:
+  
+networks:
+  siview_net:
+    driver: bridge
