@@ -12,8 +12,7 @@ Ce projet représente la partie backend de l'application, développée avec Lara
 
 1. **Cloner le Dépôt**
    ```bash
-   git clone <url_du_dépôt>
-   cd <répertoire_du_projet>/back
+   git clone https://github.com/flo-ipssi/siview_back.git
 
 2. **Démarrer le service avec Docker Compose** Lancez le conteneur avec Docker Compose :
    ```bash
