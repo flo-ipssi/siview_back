@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Dependencies
+# PHP Dependencies
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -14,10 +14,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd pdo_mysql zip \
     && update-ca-certificates
 
+# Composer installation
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install
+# Dependencies installation
+RUN composer install --optimize-autoloader
+
+# Permissions if necessary
+# RUN chown -R www-data:www-data /var/www/html

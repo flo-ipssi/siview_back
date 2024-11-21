@@ -15,11 +15,23 @@ Ce projet représente la partie backend de l'application, développée avec Lara
    git clone https://github.com/flo-ipssi/siview_back
    cd siview_back
 
-2. **Démarrer le service avec Docker Compose** Lancez le conteneur avec Docker Compose :
+2. **Démarrer le service avec Docker Compose**
    ```bash
-   docker-compose up -d
+   docker-compose up -d --build
 
-### **Informations supplémentaires**
+3. **Renommer le fichier env**
+   ```bash
+   cd siview_back
+   cd back
+   mv .env.example .env
+
+4. **Pour accéder au conteneur PhpMyAdmin** 
+   ID : root
+   Mot de passe :  root
+   ```bash
+   [http://localhost:8081/](http://localhost:8081/)
+
+### **Informations supplémentaires pour compléter l'installation**
 
 1. **Générer les clés d'application Laravel**
    ```bash
@@ -29,11 +41,18 @@ Ce projet représente la partie backend de l'application, développée avec Lara
    ```bash
    docker exec -it back php artisan migrate
    
-2. **Accéder au shell du conteneur**
+3. **Accéder au shell du conteneur**
    ```bash
    docker exec -it back bash
 
-4. **Arrêter le service**
+4. **Installer et lancer les tests avec Pest**
+   ```bash
+   docker exec -it back bash
+   composer require pestphp/pest --dev
+   vendor/bin/pest --init
+   vendor/bin/pest
+
+5. **Arrêter le service**
    ```bash
    docker-compose down
 
